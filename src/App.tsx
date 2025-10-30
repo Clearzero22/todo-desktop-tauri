@@ -27,19 +27,21 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <nav className="border-b bg-card">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-teal-50 to-cyan-50">
+      <nav className="glass-morphism border-b border-white/20 shadow-lg sticky top-0 z-50">
         <div className="container mx-auto px-4">
           <div className="flex gap-2 py-4">
             <Button 
               variant={currentPage === 'home' ? 'default' : 'ghost'}
               onClick={() => setCurrentPage('home')}
+              className={currentPage === 'home' ? 'gradient-button' : 'hover:bg-white/50'}
             >
               Tasks
             </Button>
             <Button 
               variant={currentPage === 'settings' ? 'default' : 'ghost'}
               onClick={() => setCurrentPage('settings')}
+              className={currentPage === 'settings' ? 'gradient-button' : 'hover:bg-white/50'}
             >
               Settings
             </Button>

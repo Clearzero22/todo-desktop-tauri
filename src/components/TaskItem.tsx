@@ -29,36 +29,39 @@ export function TaskItem({
   onEdit 
 }: TaskItemProps) {
   return (
-    <Card className={`transition-all hover:shadow-md border-gray-200 ${completed ? 'opacity-60' : ''}`}>
-      <CardContent className="p-4">
-        <div className="flex items-start gap-3">
+    <Card className={`gradient-card border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] ${completed ? 'opacity-60' : ''}`}>
+      <CardContent className="p-5">
+        <div className="flex items-start gap-4">
           <Checkbox
             checked={completed}
             onCheckedChange={() => onToggle(id)}
-            className="mt-1"
+            className="mt-1 w-5 h-5 border-emerald-300 text-emerald-600 focus:ring-emerald-500"
           />
           
           <div className="flex-1 min-w-0">
-            <h3 className={`font-medium text-base mb-2 ${
-              completed ? 'line-through text-muted-foreground' : ''
+            <h3 className={`font-semibold text-lg mb-3 transition-all ${
+              completed ? 'line-through text-muted-foreground' : 'text-gray-800'
             }`}>
               {title}
             </h3>
             
-            <div className="flex flex-wrap items-center gap-2 text-sm">
+            <div className="flex flex-wrap items-center gap-3 text-sm">
               <PriorityTag priority={priority} />
               
               {dueDate && (
-                <div className="flex items-center gap-1 text-muted-foreground">
-                  <Calendar className="h-3 w-3" />
-                  <span>{dueDate}</span>
+                <div className="flex items-center gap-1.5 text-muted-foreground bg-gray-50 px-2 py-1 rounded-md">
+                  <Calendar className="h-4 w-4" />
+                  <span className="font-medium">{dueDate}</span>
                 </div>
               )}
               
               {category && (
-                <div className="flex items-center gap-1 text-muted-foreground">
-                  <Tag className="h-3 w-3" />
-                  <Badge variant="secondary" className="text-xs">
+                <div className="flex items-center gap-1.5">
+                  <Tag className="h-4 w-4 text-gray-500" />
+                  <Badge 
+                    variant="secondary" 
+                    className="text-xs font-medium bg-gradient-to-r from-emerald-50 to-teal-50 text-emerald-700 border-emerald-200"
+                  >
                     {category}
                   </Badge>
                 </div>
@@ -66,12 +69,12 @@ export function TaskItem({
             </div>
           </div>
           
-          <div className="flex gap-1 ml-2">
+          <div className="flex gap-2 ml-2">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => onEdit(id)}
-              className="h-8 w-8 p-0"
+              className="h-9 w-9 p-0 hover:bg-emerald-50 hover:text-emerald-600 rounded-lg transition-colors"
             >
               <Edit className="h-4 w-4" />
             </Button>
@@ -79,7 +82,7 @@ export function TaskItem({
               variant="ghost"
               size="sm"
               onClick={() => onDelete(id)}
-              className="h-8 w-8 p-0 text-destructive hover:text-destructive"
+              className="h-9 w-9 p-0 text-destructive hover:bg-red-50 hover:text-red-600 rounded-lg transition-colors"
             >
               <Trash2 className="h-4 w-4" />
             </Button>

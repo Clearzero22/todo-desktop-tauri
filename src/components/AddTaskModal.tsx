@@ -49,12 +49,14 @@ export function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Add New Task</DialogTitle>
+      <DialogContent className="sm:max-w-[425px] gradient-card border-0 shadow-2xl">
+        <DialogHeader className="pb-4">
+          <DialogTitle className="text-2xl font-bold text-gradient">
+            Add New Task
+          </DialogTitle>
         </DialogHeader>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="title">Title</Label>
             <Input
@@ -64,7 +66,7 @@ export function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalProps) {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Enter task title..."
               required
-              className="w-full"
+              className="w-full h-11 border-emerald-200 focus:border-emerald-400 focus:ring-emerald-200"
             />
           </div>
           
@@ -74,7 +76,7 @@ export function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalProps) {
               id="priority"
               value={priority}
               onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high')}
-              className="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm text-gray-900 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex h-11 w-full rounded-md border border-emerald-200 bg-white px-4 py-2 text-sm text-gray-900 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:border-emerald-500 disabled:cursor-not-allowed disabled:opacity-50"
             >
               <option value="low">🟢 Low</option>
               <option value="medium">🟡 Medium</option>
@@ -91,7 +93,7 @@ export function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalProps) {
                 type="date"
                 value={dueDate}
                 onChange={(e) => setDueDate(e.target.value)}
-                className="pl-10 border-gray-300"
+                className="pl-10 h-11 border-emerald-200 focus:border-emerald-400 focus:ring-emerald-200"
               />
             </div>
           </div>
@@ -104,14 +106,23 @@ export function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalProps) {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               placeholder="e.g., Work, Personal"
+              className="h-11 border-emerald-200 focus:border-emerald-400 focus:ring-emerald-200"
             />
           </div>
 
-          <DialogFooter>
-            <Button type="button" variant="outline" onClick={onClose}>
+          <DialogFooter className="pt-4">
+            <Button 
+              type="button" 
+              variant="outline" 
+              onClick={onClose}
+              className="hover:bg-gray-50 border-gray-200"
+            >
               Cancel
             </Button>
-            <Button type="submit">
+            <Button 
+              type="submit"
+              className="gradient-button shadow-glow-hover"
+            >
               Add Task
             </Button>
           </DialogFooter>

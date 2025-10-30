@@ -32,8 +32,18 @@ export function PriorityTag({ priority }: PriorityTagProps) {
   };
 
   return (
-    <Badge variant={getVariant()} className="text-xs">
-      {getIcon()} {priority.charAt(0).toUpperCase() + priority.slice(1)}
+    <Badge 
+      variant={getVariant()} 
+      className={`text-xs font-semibold px-2.5 py-1 rounded-full border-0 shadow-sm ${
+        priority === 'high' 
+          ? 'bg-gradient-to-r from-red-500 to-pink-500 text-white' 
+          : priority === 'medium'
+          ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white'
+          : 'bg-gradient-to-r from-emerald-500 to-teal-500 text-white'
+      }`}
+    >
+      <span className="mr-1">{getIcon()}</span>
+      {priority.charAt(0).toUpperCase() + priority.slice(1)}
     </Badge>
   );
 }
