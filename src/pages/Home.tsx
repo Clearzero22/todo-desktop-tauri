@@ -1,7 +1,10 @@
 import { useState } from 'react';
-import { TaskList } from '../components/TaskList';
-import { AddTaskModal } from '../components/AddTaskModal';
-import { useTasks } from '../hooks/useTasks';
+import { TaskList } from '@/components/TaskList';
+import { AddTaskModal } from '@/components/AddTaskModal';
+import { useTasks } from '@/hooks/useTasks';
+import { Button } from '@/components/ui/button';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Plus } from 'lucide-react';
 
 export function Home() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,37 +43,47 @@ export function Home() {
   };
 
   return (
-    <div className="home-page">
-      <header className="page-header">
-        <h1>Todo Tasks</h1>
-        <button 
-          className="add-task-btn"
-          onClick={() => setIsModalOpen(true)}
-        >
-          + Add Task
-        </button>
-      </header>
-
-      <div className="filters">
-        <button
-          className={filter === 'all' ? 'active' : ''}
-          onClick={() => setFilter('all')}
-        >
-          All ({tasks.length})
-        </button>
-        <button
-          className={filter === 'active' ? 'active' : ''}
-          onClick={() => setFilter('active')}
-        >
-          Active ({tasks.filter(t => !t.completed).length})
-        </button>
-        <button
-          className={filter === 'completed' ? 'active' : ''}
-          onClick={() => setFilter('completed')}
-        >
-          Completed ({tasks.filter(t => t.completed).length})
-        </button>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Todo Tasks</h1>
+          <p className="text-gray-600 mt-2">
+            Manage your daily tasks efficiently
+          </p>
+        </div>
+        <Button onClick={() => setIsModalOpen(true)} size="lg">
+          <Plus className="mr-2 h-4 w-4" />
+          Add Task
+        </Button>
       </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Filters</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-2">
+            <Button
+              variant={filter === 'all' ? 'default' : 'outline'}
+              onClick={() => setFilter('all')}
+            >
+              All ({tasks.length})
+            </Button>
+            <Button
+              variant={filter === 'active' ? 'default' : 'outline'}
+              onClick={() => setFilter('active')}
+            >
+              Active ({tasks.filter(t => !t.completed).length})
+            </Button>
+            <Button
+              variant={filter === 'completed' ? 'default' : 'outline'}
+              onClick={() => setFilter('completed')}
+            >
+              Completed ({tasks.filter(t => t.completed).length})
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
 
       <TaskList
         tasks={filteredTasks}

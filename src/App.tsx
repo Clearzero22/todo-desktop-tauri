@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import { Home } from './pages/Home';
-import { Settings } from './pages/Settings';
-import { useTasks } from './hooks/useTasks';
+import { Home } from '@/pages/Home';
+import { Settings } from '@/pages/Settings';
+import { useTasks } from '@/hooks/useTasks';
+import { Button } from '@/components/ui/button';
 import './App.css';
 
 type Page = 'home' | 'settings';
 
 function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
-  const { tasks, fetchTasks, isLoading, error } = useTasks();
+  const { fetchTasks, isLoading, error } = useTasks();
 
   React.useEffect(() => {
     fetchTasks();
@@ -26,35 +27,43 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <nav className="app-nav">
-        <button 
-          className={currentPage === 'home' ? 'active' : ''}
-          onClick={() => setCurrentPage('home')}
-        >
-          Tasks
-        </button>
-        <button 
-          className={currentPage === 'settings' ? 'active' : ''}
-          onClick={() => setCurrentPage('settings')}
-        >
-          Settings
-        </button>
+    <div className="min-h-screen bg-background">
+      <nav className="border-b bg-card">
+        <div className="container mx-auto px-4">
+          <div className="flex gap-2 py-4">
+            <Button 
+              variant={currentPage === 'home' ? 'default' : 'ghost'}
+              onClick={() => setCurrentPage('home')}
+            >
+              Tasks
+            </Button>
+            <Button 
+              variant={currentPage === 'settings' ? 'default' : 'ghost'}
+              onClick={() => setCurrentPage('settings')}
+            >
+              Settings
+            </Button>
+          </div>
+        </div>
       </nav>
 
       {isLoading && (
-        <div className="loading">
-          <p>Loading...</p>
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex items-center justify-center">
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
         </div>
       )}
 
       {error && (
-        <div className="error">
-          <p>Error: {error}</p>
+        <div className="container mx-auto px-4 py-8">
+          <div className="rounded-lg border border-destructive bg-destructive/10 p-4">
+            <p className="text-destructive">Error: {error}</p>
+          </div>
         </div>
       )}
 
-      <main className="app-main">
+      <main className="container mx-auto px-4 py-8">
         {renderCurrentPage()}
       </main>
     </div>

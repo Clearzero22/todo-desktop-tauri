@@ -22,7 +22,36 @@ export function useTasks() {
     try {
       // TODO: Replace with actual Tauri API call
       // const tasksFromAPI = await invoke('get_tasks');
-      const tasksFromAPI: Task[] = [];
+      const tasksFromAPI: Task[] = [
+        {
+          id: '1',
+          title: 'Welcome to Todo App!',
+          completed: false,
+          priority: 'high',
+          dueDate: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+          category: 'Demo',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+        {
+          id: '2',
+          title: 'Try adding a new task',
+          completed: false,
+          priority: 'medium',
+          category: 'Demo',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+        {
+          id: '3',
+          title: 'Click the checkbox to complete',
+          completed: true,
+          priority: 'low',
+          category: 'Demo',
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        }
+      ];
       setTasks(tasksFromAPI);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to fetch tasks');

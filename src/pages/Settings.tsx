@@ -1,4 +1,10 @@
 import { useState } from 'react';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { Settings as SettingsIcon, Bell, Clock, Plus, Trash2, Palette } from 'lucide-react';
 
 export interface Category {
   id: string;
@@ -38,73 +44,123 @@ export function Settings() {
   };
 
   return (
-    <div className="settings-page">
-      <header className="page-header">
-        <h1>Settings</h1>
-      </header>
+    <div className="space-y-6">
+      <div className="flex items-center gap-2">
+        <SettingsIcon className="h-6 w-6" />
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+          <p className="text-gray-600 mt-2">
+            Customize your task management experience
+          </p>
+        </div>
+      </div>
 
-      <section className="settings-section">
-        <h2>Categories</h2>
-        <div className="category-list">
-          {categories.map(category => (
-            <div key={category.id} className="category-item">
-              <div 
-                className="category-color"
-                style={{ backgroundColor: category.color }}
-              />
-              <span>{category.name}</span>
-              <button 
-                onClick={() => handleDeleteCategory(category.id)}
-                className="delete-btn"
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Palette className="h-5 w-5" />
+            Categories
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="grid gap-3">
+            {categories.map(category => (
+              <div
+                key={category.id}
+                className="flex items-center justify-between p-3 border rounded-lg"
               >
-                Delete
-              </button>
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-4 h-4 rounded-full border"
+                    style={{ backgroundColor: category.color }}
+                  />
+                  <span className="font-medium">{category.name}</span>
+                  <Badge variant="outline">{category.color}</Badge>
+                </div>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleDeleteCategory(category.id)}
+                  className="text-destructive hover:text-destructive"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+
+          <div className="border-t pt-4">
+            <h4 className="font-medium mb-3">Add New Category</h4>
+            <div className="flex gap-2">
+              <div className="flex-1">
+                <Input
+                  placeholder="Category name"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <Input
+                  type="color"
+                  value={newCategoryColor}
+                  onChange={(e) => setNewCategoryColor(e.target.value)}
+                  className="w-16 h-10 p-1 cursor-pointer"
+                />
+                <Button onClick={handleAddCategory} disabled={!newCategoryName.trim()}>
+                  <Plus className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
-          ))}
-        </div>
+          </div>
+        </CardContent>
+      </Card>
 
-        <div className="add-category">
-          <input
-            type="text"
-            placeholder="Category name"
-            value={newCategoryName}
-            onChange={(e) => setNewCategoryName(e.target.value)}
-          />
-          <input
-            type="color"
-            value={newCategoryColor}
-            onChange={(e) => setNewCategoryColor(e.target.value)}
-          />
-          <button onClick={handleAddCategory}>Add Category</button>
-        </div>
-      </section>
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Bell className="h-5 w-5" />
+            Notifications
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="space-y-0.5">
+              <Label className="text-base">Enable notifications</Label>
+              <p className="text-sm text-muted-foreground">
+                Receive reminders for your tasks
+              </p>
+            </div>
+            <Button
+              variant={notifications ? "default" : "outline"}
+              size="sm"
+              onClick={() => setNotifications(!notifications)}
+            >
+              {notifications ? "Enabled" : "Disabled"}
+            </Button>
+          </div>
 
-      <section className="settings-section">
-        <h2>Notifications</h2>
-        <div className="setting-item">
-          <label>
-            <input
-              type="checkbox"
-              checked={notifications}
-              onChange={(e) => setNotifications(e.target.checked)}
-            />
-            Enable notifications
-          </label>
-        </div>
-
-        {notifications && (
-          <div className="setting-item">
-            <label>
-              Default reminder time:
-              <input
+          {notifications && (
+            <div className="flex items-center justify-between border-t pt-4">
+              <div className="space-y-0.5">
+                <Label htmlFor="reminder-time" className="text-base flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  Default reminder time
+                </Label>
+                <p className="text-sm text-muted-foreground">
+                  Set default time for task reminders
+                </p>
+              </div>
+              <Input
+                id="reminder-time"
                 type="time"
                 value={reminderTime}
                 onChange={(e) => setReminderTime(e.target.value)}
+                className="w-32"
               />
-            </label>
-          </div>
-        )}
-      </section>
+            </div>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }

@@ -1,4 +1,15 @@
 import { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Calendar } from 'lucide-react';
 
 export interface AddTaskModalProps {
   isOpen: boolean;
@@ -28,6 +39,7 @@ export function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalProps) {
       category: category.trim() || undefined,
     });
 
+    // Reset form
     setTitle('');
     setPriority('medium');
     setDueDate('');
@@ -35,47 +47,59 @@ export function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalProps) {
     onClose();
   };
 
-  if (!isOpen) return null;
-
   return (
-    <div className="modal-overlay">
-      <div className="modal">
-        <h2>Add New Task</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label>Title:</label>
-            <input
+    <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>Add New Task</DialogTitle>
+        </DialogHeader>
+        
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="title">Title</Label>
+            <Input
+              id="title"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
+              placeholder="Enter task title..."
               required
+              className="w-full"
             />
           </div>
           
-          <div className="form-group">
-            <label>Priority:</label>
+          <div className="space-y-2">
+            <Label htmlFor="priority">Priority</Label>
             <select
+              id="priority"
               value={priority}
               onChange={(e) => setPriority(e.target.value as 'low' | 'medium' | 'high')}
+              className="flex h-9 w-full rounded-md border border-gray-300 bg-white px-3 py-1 text-sm text-gray-900 shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
             >
-              <option value="low">Low</option>
-              <option value="medium">Medium</option>
-              <option value="high">High</option>
+              <option value="low">🟢 Low</option>
+              <option value="medium">🟡 Medium</option>
+              <option value="high">🔴 High</option>
             </select>
           </div>
 
-          <div className="form-group">
-            <label>Due Date:</label>
-            <input
-              type="date"
-              value={dueDate}
-              onChange={(e) => setDueDate(e.target.value)}
-            />
+          <div className="space-y-2">
+            <Label htmlFor="dueDate">Due Date</Label>
+            <div className="relative">
+              <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                id="dueDate"
+                type="date"
+                value={dueDate}
+                onChange={(e) => setDueDate(e.target.value)}
+                className="pl-10 border-gray-300"
+              />
+            </div>
           </div>
 
-          <div className="form-group">
-            <label>Category:</label>
-            <input
+          <div className="space-y-2">
+            <Label htmlFor="category">Category</Label>
+            <Input
+              id="category"
               type="text"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
@@ -83,12 +107,16 @@ export function AddTaskModal({ isOpen, onClose, onAdd }: AddTaskModalProps) {
             />
           </div>
 
-          <div className="form-actions">
-            <button type="button" onClick={onClose}>Cancel</button>
-            <button type="submit">Add Task</button>
-          </div>
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit">
+              Add Task
+            </Button>
+          </DialogFooter>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   );
 }
